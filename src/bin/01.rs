@@ -1,0 +1,40 @@
+advent_of_code::solution!(1);
+
+pub fn part_one(input: &str) -> Option<u64> {
+    let commands: Vec<(&str, i32)> = input
+        .lines()
+        .filter_map(|line| {
+            if line.is_empty() {
+                return None;
+            }
+            let direction = &line[0..1];
+            let steps: i32 = line[1..].parse().ok()?;
+            Some((direction, steps))
+        })
+        .collect();
+
+    println!("Number of lines: {}", commands.len());
+
+    Some(0)
+}
+
+pub fn part_two(input: &str) -> Option<u64> {
+    None
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_part_one() {
+        let result = part_one(&advent_of_code::template::read_file("examples", DAY));
+        assert_eq!(result, None);
+    }
+
+    #[test]
+    fn test_part_two() {
+        let result = part_two(&advent_of_code::template::read_file("examples", DAY));
+        assert_eq!(result, None);
+    }
+}
