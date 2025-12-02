@@ -1,22 +1,18 @@
 advent_of_code::solution!(1);
 
 pub fn part_one(input: &str) -> Option<u64> {
-    let commands: Vec<(&str, i32)> = input
-        .lines()
-        .filter_map(|line| {
-            if line.is_empty() {
-                return None;
-            }
-            let direction = &line[0..1];
-            let steps: i32 = line[1..].parse().ok()?;
-            Some((direction, steps))
-        })
-        .collect();
-
-    let mut position: i32 = 50; // start
+    let mut position: i32 = 50;
     let mut count_zero: u64 = 0;
 
-    for (direction, steps) in commands {
+    for line in input.lines().filter_map(|line| {
+        if line.is_empty() {
+            return None;
+        }
+        let direction = &line[0..1];
+        let steps: i32 = line[1..].parse().ok()?;
+        Some((direction, steps))
+    }) {
+        let (direction, steps) = line;
         match direction {
             "R" => position += steps,
             "L" => position -= steps,
@@ -29,7 +25,6 @@ pub fn part_one(input: &str) -> Option<u64> {
         while position < 0 {
             position += 100;
         }
-
         if position == 0 {
             count_zero += 1;
         }
@@ -39,20 +34,31 @@ pub fn part_one(input: &str) -> Option<u64> {
 }
 
 pub fn part_two(input: &str) -> Option<u64> {
-    let mut position: i32 = 50; // start
+    let mut position: i32 = 50;
     let mut count_zero: u64 = 0;
 
-    for line in input.lines().filter(|l| !l.is_empty()) {
+    for line in input.lines().filter_map(|line| {
+        if line.is_empty() {
+            return None;
+        }
         let direction = &line[0..1];
         let steps: i32 = line[1..].parse().ok()?;
-
+        Some((direction, steps))
+    }) {
+        let (direction, steps) = line;
         for _ in 0..steps {
-            position = match direction {
-                "R" => (position + 1) % 100,
-                "L" => (position - 1 + 100) % 100,
-                _ => position,
-            };
+            match direction {
+                "R" => position += 1,
+                "L" => position -= 1,
+                _ => {}
+            }
 
+            if position > 99 {
+                position = 0;
+            }
+            if position < 0 {
+                position = 99;
+            }
             if position == 0 {
                 count_zero += 1;
             }
