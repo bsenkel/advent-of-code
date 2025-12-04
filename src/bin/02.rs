@@ -2,7 +2,7 @@ advent_of_code::solution!(2);
 
 pub fn part_one(input: &str) -> Option<u64> {
     let segments: Vec<&str> = input.split(',').collect();
-    let mut add: u64 = 0;
+    let mut sum: u64 = 0;
 
     for segment in segments {
         let range: Vec<&str> = segment.split('-').collect();
@@ -10,17 +10,17 @@ pub fn part_one(input: &str) -> Option<u64> {
         let last_id = range[1].parse::<u64>();
 
         for i in first_id.unwrap_or_default()..=last_id.unwrap_or_default() {
-            let i_cast = i.to_string();
-            let i_size = i_cast.len();
+            let digits = i.to_string();
+            let len = digits.len();
 
-            let (first, last) = i_cast.split_at(i_size / 2);
+            let (first, last) = digits.split_at(len / 2);
             if first == last {
-                add += i;
+                sum += i;
             }
         }
     }
 
-    Some(add)
+    Some(sum)
 }
 
 pub fn part_two(input: &str) -> Option<u64> {
